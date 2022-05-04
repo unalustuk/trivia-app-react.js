@@ -9,15 +9,14 @@ function App() {
         difficulty: "any",
     })
 
-    const [data, setData] = useState("")
-
+    const [data, setData] = useState([])
     const [isLoaded, setIsLoaded] = useState(false)
-
-    const [items, setItems] = useState()
+    const [items, setItems] = useState([])
+    const [score, setScore] = useState(0)
+    const [isFinish, setIsFinish] = useState(false)
 
     function handleChange(event) {
         const { name, value } = event.target
-        console.log(event)
         setOptions((prevOptData) => {
             return {
                 ...prevOptData,
@@ -25,7 +24,6 @@ function App() {
             }
         })
     }
-    console.log(options)
 
     function startGame() {
         setIsLoaded((prevState) => !prevState)
@@ -44,7 +42,6 @@ function App() {
         } else {
             url += `&type=multiple`
         }
-        console.log(url)
         fetch(url)
             .then((res) => res.json())
             .then((result) => {
@@ -52,28 +49,12 @@ function App() {
             })
     }, [options])
 
-    // async function fetchData() {
-    //     let url = "https://opentdb.com/api.php?amount=10&type=multiple"
-
-    //     if (options.category !== "8" && options.difficulty !== "any") {
-    //         url += `&category=${options.category}&difficulty=${options.difficulty}&type=multiple`
-    //     } else if (options.category !== "8" && options.difficulty === "any") {
-    //         url += `&category=${options.category}&type=multiple`
-    //     } else if (options.category === "8" && options.difficulty !== "any") {
-    //         url += `&difficulty=${options.difficulty}&type=multiple`
-    //     }
-
-    //     const res = await fetch(url)
-    //     const data = await res.json()
-    //     setData(data.results)
-    // }
-
-    const shuffleChoices = () => {
+    function shuffleChoices() {
         let randIndexList = [0, 1, 2, 3]
         return (randIndexList = randIndexList.sort(() => Math.random() - 0.5))
     }
 
-    const createItemSet = (dataRes) => {
+    function createItemSet(dataRes) {
         return dataRes.map((item) => {
             return [
                 item.incorrect_answers[0],
@@ -85,7 +66,7 @@ function App() {
         })
     }
 
-    const questionObject = () => {
+    function questionObject() {
         const questionsAnswersArray = createItemSet(data)
         const array = questionsAnswersArray.map((item) => {
             let newRand = shuffleChoices()
@@ -104,12 +85,94 @@ function App() {
         return array
     }
 
+    function handleButton(buttonID, questionID) {
+        setItems((prevItems) => {
+            const array = []
+
+            for (let i = 0; i < prevItems.length; i++) {
+                const newAnswerOption = []
+                const currentQuestion = prevItems[i]
+
+                if (questionID === currentQuestion.id) {
+                    for (
+                        let j = 0;
+                        j < prevItems[i].answerOptions.length;
+                        j++
+                    ) {
+                        const currentAnswerOption =
+                            prevItems[i].answerOptions[j]
+
+                        if (currentAnswerOption.id === buttonID) {
+                            const updatedAnswerOption = {
+                                ...currentAnswerOption,
+                                isChosen: !currentAnswerOption.isChosen,
+                            }
+                            newAnswerOption.push(updatedAnswerOption)
+                        } else if (
+                            currentAnswerOption.id !== buttonID &&
+                            currentAnswerOption.isChosen
+                        ) {
+                            const updatedAnswerOption = {
+                                ...currentAnswerOption,
+                                isChosen: !currentAnswerOption.isChosen,
+                            }
+                            newAnswerOption.push(updatedAnswerOption)
+                        } else {
+                            newAnswerOption.push(currentAnswerOption)
+                        }
+                    }
+                    const updatedQuestion = {
+                        ...currentQuestion,
+                        answerOptions: newAnswerOption,
+                    }
+                    array.push(updatedQuestion)
+                } else {
+                    array.push(currentQuestion)
+                }
+            }
+            return array
+        })
+    }
+
+    function checkScore() {
+        for (let i = 0; i < items.length; i++) {
+            for (let j = 0; j < items[i].answerOptions.length; j++) {
+                if (
+                    items[i].correct_answer ===
+                        items[i].answerOptions[j].value &&
+                    items[i].answerOptions[j].isChosen
+                ) {
+                    setScore((prevState) => prevState + 1)
+                }
+            }
+        }
+        setIsFinish((prevState) => !prevState)
+    }
+
+    function playAgain() {
+        setData([])
+        setItems([])
+        setIsFinish(false)
+        setIsLoaded(false)
+        setOptions({
+            category: "8",
+            difficulty: "any",
+        })
+        setScore(0)
+    }
     console.log(items)
 
     return (
         <div>
             {isLoaded ? (
-                <QuizPage items={items} />
+                <QuizPage
+                    items={items}
+                    handleButton={handleButton}
+                    checkScore={checkScore}
+                    score={score}
+                    isFinish={isFinish}
+                    playAgain={playAgain}
+                />
             ) : (
                 <StartPage
                     opt={options}

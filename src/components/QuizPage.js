@@ -8,7 +8,40 @@ export default function QuizPage(props) {
                     {quizItem.question}
                 </p>
                 {quizItem.answerOptions.map((item) => {
-                    return <button key={generateId()}>{item.value}</button>
+                    let style
+                    if (props.isFinish) {
+                        if (
+                            (quizItem.correct_answer === item.value &&
+                                item.isChosen) ||
+                            quizItem.correct_answer === item.value
+                        ) {
+                            style = "answer-btn correct"
+                        } else if (
+                            quizItem.correct_answer !== item.value &&
+                            item.isChosen
+                        ) {
+                            style = "answer-btn wrong"
+                        }
+                    } else {
+                        if (item.isChosen) {
+                            style = "answer-btn chosen"
+                        } else {
+                            style = "answer-btn"
+                        }
+                    }
+
+                    return (
+                        <button
+                            className={style}
+                            key={item.id}
+                            onClick={() =>
+                                props.handleButton(item.id, quizItem.id)
+                            }
+                            {...(props.isFinish && { disabled: true })}
+                        >
+                            {item.value}
+                        </button>
+                    )
                 })}
             </div>
         ))
@@ -20,5 +53,22 @@ export default function QuizPage(props) {
 
     const quizItems = createQuiz()
 
-    return <div className="wrapper">{quizItems}</div>
+    return (
+        <div className="wrapper">
+            {quizItems}
+            {props.isFinish ? (
+                <div>
+                    <p>You scored {props.score}/10 </p>
+
+                    <button onClick={() => props.playAgain()}>
+                        PLAY AGAIN
+                    </button>
+                </div>
+            ) : (
+                <button onClick={() => props.checkScore()}>
+                    CHECK ANSWERS
+                </button>
+            )}
+        </div>
+    )
 }
