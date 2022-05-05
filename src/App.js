@@ -14,6 +14,7 @@ function App() {
     const [items, setItems] = useState([])
     const [score, setScore] = useState(0)
     const [isFinish, setIsFinish] = useState(false)
+    const [isFetch, setIsFetch] = useState(false)
 
     function handleChange(event) {
         const { name, value } = event.target
@@ -25,29 +26,47 @@ function App() {
         })
     }
 
-    function startGame() {
-        setIsLoaded((prevState) => !prevState)
-        setItems(questionObject())
-    }
-
     useEffect(() => {
+        setIsFetch(false)
         let url = "https://opentdb.com/api.php?amount=10"
-
-        if (options.category !== "8" && options.difficulty !== "any") {
-            url += `&category=${options.category}&difficulty=${options.difficulty}&type=multiple`
-        } else if (options.category !== "8" && options.difficulty === "any") {
+        if (
+            options.category === "13" ||
+            options.category === "19" ||
+            options.category === "24" ||
+            options.category === "25" ||
+            options.category === "26" ||
+            options.category === "30"
+        ) {
             url += `&category=${options.category}&type=multiple`
-        } else if (options.category === "8" && options.difficulty !== "any") {
-            url += `&difficulty=${options.difficulty}&type=multiple`
         } else {
-            url += `&type=multiple`
+            if (options.category !== "8" && options.difficulty !== "any") {
+                url += `&category=${options.category}&difficulty=${options.difficulty}&type=multiple`
+            } else if (
+                options.category !== "8" &&
+                options.difficulty === "any"
+            ) {
+                url += `&category=${options.category}&type=multiple`
+            } else if (
+                options.category === "8" &&
+                options.difficulty !== "any"
+            ) {
+                url += `&difficulty=${options.difficulty}&type=multiple`
+            } else {
+                url += `&type=multiple`
+            }
         }
+
         fetch(url)
             .then((res) => res.json())
             .then((result) => {
                 setData(result.results)
+                setIsFetch(true)
             })
     }, [options])
+    function startGame() {
+        setIsLoaded((prevState) => !prevState)
+        setItems(questionObject())
+    }
 
     function shuffleChoices() {
         let randIndexList = [0, 1, 2, 3]
@@ -85,7 +104,7 @@ function App() {
         return array
     }
 
-    function handleButton(buttonID, questionID) {
+    function handleButtonChange(buttonID, questionID) {
         setItems((prevItems) => {
             const array = []
 
@@ -160,14 +179,13 @@ function App() {
         })
         setScore(0)
     }
-    console.log(items)
 
     return (
         <div>
             {isLoaded ? (
                 <QuizPage
                     items={items}
-                    handleButton={handleButton}
+                    handleButtonChange={handleButtonChange}
                     checkScore={checkScore}
                     score={score}
                     isFinish={isFinish}
@@ -178,10 +196,9 @@ function App() {
                     opt={options}
                     handleChange={(e) => handleChange(e)}
                     startGame={() => startGame()}
+                    isFetch={isFetch}
                 />
             )}
-
-            {/* <QuizPage data={data} /> */}
         </div>
     )
 }

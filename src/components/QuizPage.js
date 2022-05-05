@@ -35,7 +35,7 @@ export default function QuizPage(props) {
                             className={style}
                             key={item.id}
                             onClick={() =>
-                                props.handleButton(item.id, quizItem.id)
+                                props.handleButtonChange(item.id, quizItem.id)
                             }
                             {...(props.isFinish && { disabled: true })}
                         >

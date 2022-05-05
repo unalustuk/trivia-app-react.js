@@ -7,6 +7,17 @@ export default function StartPage(props) {
             {option.name}
         </option>
     ))
+    let brokenCategory
+    if (
+        props.opt.category === "13" ||
+        props.opt.category === "19" ||
+        props.opt.category === "24" ||
+        props.opt.category === "25" ||
+        props.opt.category === "26" ||
+        props.opt.category === "30"
+    ) {
+        brokenCategory = true
+    }
     return (
         <div className="wrapper">
             <h2 className="title">Trivia App</h2>
@@ -24,19 +35,35 @@ export default function StartPage(props) {
             </select>
             <span className="text">Select Difficulty:</span>
 
-            <select
-                className="selection"
-                name="difficulty"
-                id="difficulty"
-                value={props.opt.difficulty}
-                onChange={props.handleChange}
+            {brokenCategory ? (
+                <select
+                    className="selection"
+                    name="difficulty"
+                    id="difficulty"
+                    value={props.opt.difficulty}
+                    onChange={props.handleChange}
+                >
+                    <option value="any">Any Difficulty</option>
+                </select>
+            ) : (
+                <select
+                    className="selection"
+                    name="difficulty"
+                    id="difficulty"
+                    value={props.opt.difficulty}
+                    onChange={props.handleChange}
+                >
+                    <option value="any">Any Difficulty</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+            )}
+            <button
+                className="btn"
+                onClick={props.startGame}
+                {...(!props.isFetch && { disabled: true })}
             >
-                <option value="any">Any Difficulty</option>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-            </select>
-            <button className="btn" onClick={props.startGame}>
                 Start
             </button>
         </div>
