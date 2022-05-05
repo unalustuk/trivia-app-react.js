@@ -7,7 +7,7 @@
 
 body {
     font-family: "Poppins", sans-serif;
-    width: 100vw;
+    width: 100%;
     justify-content: center;
     align-items: center;
     background: rgb(34, 193, 195);
@@ -18,7 +18,7 @@ body {
     );
 }
 
-.wrapper {
+.wrapper-start {
     margin: auto;
     background-color: black;
     width: 80%;
@@ -28,20 +28,26 @@ body {
     flex-direction: column;
     justify-content: center;
 }
+@media screen and (max-width: 720px) {
+    .wrapper-start {
+        width: 100vw;
+    }
+}
 
 .title {
     font-size: 3rem;
     margin: 20px auto;
-    color: #8e49e8;
+    color: #4d5b9e;
 }
 .text {
     font-size: 1.1rem;
+    font-weight: 600;
     margin: 0 auto;
+    color: #4d5b9e;
 }
 
 .selection {
     margin: 10px auto;
-
     width: 300px;
     font-size: 1.1rem;
 }
@@ -52,11 +58,12 @@ body {
     height: 40px;
     border: none;
     outline: none;
-    background: #8e49e8;
+    background: #4d5b9e;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 10px;
+
     padding: 6px 10px;
     opacity: 0.95;
 }
@@ -66,26 +73,96 @@ button:hover {
 }
 
 /* quizpage*/
-.option {
-    background-color: #8e49e8;
-    margin: 20px;
+.wrapper {
+    margin: auto;
+    padding-top: 25px;
+    background-color: black;
+    width: 70%;
+    height: 100%;
+    background: #f5f7fb;
+    display: flex;
+    flex-direction: column;
+    padding-left: auto;
+    padding-right: auto;
+}
+@media screen and (max-width: 720px) {
+    .wrapper {
+        width: 100vw;
+    }
+}
+.question-box {
+    margin: 8px 20px;
+    border-bottom: 1px solid rgba(77, 91, 158, 0.5);
+    padding-bottom: 20px;
 }
 
+.question {
+    color: #293264;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
 .answer-btn {
-    margin: 0 10px;
+    color: #293264;
+    min-width: 100px;
+    padding: 5px;
+    font-size: 16px;
+    margin: 3px 10px;
+    background: none;
+    border: 1px solid #4d5b9e;
+    border-radius: 8px;
 }
 
 .chosen {
-    background-color: #8e49e8;
+    background-color: #d6dbf5;
+    border: none;
 }
 
 .wrong {
-    background-color: red;
+    background-color: #f8bcbc;
+    border: none;
 }
 
 .correct {
-    background-color: green;
+    background-color: #94d7a2;
+    border: none;
 }
-.wrong-chosen {
-    background-color: rgb(220, 31, 91);
+
+.end-btn {
+    margin: 30px auto;
+    min-width: 100px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: #4d5b9e;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 6px 10px;
+    opacity: 0.95;
+}
+.end-text {
+    margin: auto 0 auto auto;
+    color: #293264;
+    font-size: 16px;
+    font-weight: 600;
+}
+.playagain-btn {
+    margin: 30px auto 30px 15px;
+    min-width: 100px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background: #4d5b9e;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+
+    padding: 6px 10px;
+    opacity: 0.95;
+}
+.wrap {
+    display: flex;
 }

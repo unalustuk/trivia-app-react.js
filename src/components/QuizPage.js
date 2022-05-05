@@ -4,7 +4,7 @@ export default function QuizPage(props) {
     function createQuiz() {
         return props.items.map((quizItem) => (
             <div className="question-box" key={generateId()}>
-                <p className="quieston" key={quizItem.id}>
+                <p className="question" key={quizItem.id}>
                     {quizItem.question}
                 </p>
                 {quizItem.answerOptions.map((item) => {
@@ -21,6 +21,8 @@ export default function QuizPage(props) {
                             item.isChosen
                         ) {
                             style = "answer-btn wrong"
+                        } else {
+                            style = "answer-btn"
                         }
                     } else {
                         if (item.isChosen) {
@@ -57,17 +59,25 @@ export default function QuizPage(props) {
         <div className="wrapper">
             {quizItems}
             {props.isFinish ? (
-                <div>
-                    <p>You scored {props.score}/10 </p>
+                <div className="wrap">
+                    <p className="end-text">You scored {props.score}/10 </p>
 
-                    <button onClick={() => props.playAgain()}>
+                    <button
+                        className="playagain-btn"
+                        onClick={() => props.playAgain()}
+                    >
                         PLAY AGAIN
                     </button>
                 </div>
             ) : (
-                <button onClick={() => props.checkScore()}>
-                    CHECK ANSWERS
-                </button>
+                <div className="wrap">
+                    <button
+                        className="end-btn"
+                        onClick={() => props.checkScore()}
+                    >
+                        CHECK ANSWERS
+                    </button>
+                </div>
             )}
         </div>
     )

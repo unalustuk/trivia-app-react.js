@@ -19,7 +19,7 @@ export default function StartPage(props) {
         brokenCategory = true
     }
     return (
-        <div className="wrapper">
+        <div className="wrapper-start">
             <h2 className="title">Trivia App</h2>
             {/* <p className="text">Welcome to Trivia App</p> */}
             <span className="text">Select Category:</span>
@@ -64,7 +64,7 @@ export default function StartPage(props) {
                 onClick={props.startGame}
                 {...(!props.isFetch && { disabled: true })}
             >
-                Start
+                START
             </button>
         </div>
     )
