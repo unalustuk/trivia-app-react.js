@@ -115,17 +115,17 @@ button:hover {
 
 .chosen {
     background-color: #d6dbf5;
-    border: none;
+    border: 1px solid #d6dbf5;
 }
 
 .wrong {
     background-color: #f8bcbc;
-    border: none;
+    border: 1px solid #f8bcbc;
 }
 
 .correct {
     background-color: #94d7a2;
-    border: none;
+    border: 1px solid #94d7a2;
 }
 
 .end-btn {
