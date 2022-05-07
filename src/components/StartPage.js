@@ -66,6 +66,24 @@ export default function StartPage(props) {
             >
                 START
             </button>
+            {/* <FontAwesomeIcon icon="fa-brands fa-github" />
+            <FontAwesomeIcon icon="fa-brands fa-linkedin" /> */}
+
+            <div className="icons">
+                <a
+                    href="https://www.linkedin.com/in/ünal-uştuk-312652197/"
+                    className="right"
+                    target="_blank"
+                >
+                    <i class="fa-brands fa-linkedin fa-3x "></i>
+                </a>
+                <a
+                    href="https://github.com/unalustuk/trivia-app-react.js"
+                    target="_blank"
+                >
+                    <i class="fa-brands fa-github fa-3x"></i>
+                </a>
+            </div>
         </div>
     )
 }
