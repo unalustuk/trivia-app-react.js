@@ -1,5 +1,5 @@
 ## Live Demo
-https://trivia-appx.herokuapp.com
+https://trivia-app-react-js.vercel.app
 
 ## Available Scripts
 
